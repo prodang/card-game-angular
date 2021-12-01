@@ -1,0 +1,9 @@
+<section>
+  <article>
+    <form role="form" (submit)="send()" [formGroup]="form">
+      <input type="text" placeholder="Usuario" formControlName="user">
+      <input type="password" placeholder="Clave" formControlName="clave"><br>
+      <button type="submit" class="btn btn-primary" >Enviar</button>
+    </form>
+  </article>
+</section>

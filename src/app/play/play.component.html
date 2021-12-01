@@ -1,0 +1,26 @@
+<div class="main">
+  <section id="info" class="d-flex flex-column justify-content-between" >
+    <article id="art-1" class="content d-flex flex-column justify-content-around">
+      <label>Puntuacion
+        <input type="text" [(ngModel)]="punt" readonly>
+      </label>
+      <label>Tiempo
+        <input type="text" id="clock" [(ngModel)]="time" readonly>
+      </label>
+    </article>
+    <article id="art-2" class="content d-flex flex-column justify-content-between">
+      <label>Total
+        <input type="text" [(ngModel)]="total" readonly>
+      </label>
+      <button type="button" class="btn btn-primary" (click)="save()">Grabar Juego</button>
+      <button type="button" class="btn btn-secondary" (click)="recover()">Recuperar Juego</button>
+    </article>
+  </section>
+
+  <section id="board">
+    <article class="d-flex flex-wrap justify-content-center" >
+      <img [id]="card.id" *ngFor="let card of board.getCards()" [src]="card.state" (click)="pruebaClick(card)">
+    </article>
+  </section>
+
+</div>

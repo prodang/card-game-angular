@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,22 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'card-game-angular';
+  notLog = true;
+
+  constructor(private router: Router) {
+  }
+
+  changeLog(){
+    if(this.notLog){
+      this.notLog = false;
+    }else{
+      this.notLog = true;
+    }
+  }
+
+  finish(){
+    sessionStorage.setItem('token','');
+    this.changeLog();
+    this.router.navigateByUrl('/start');
+  }
 }

@@ -1,0 +1,21 @@
+<section>
+  <form class="d-flex flex-column" [formGroup]="form">
+    <div class="select">
+      <label for="card">Número de imagenes</label>
+      <select id="card" formControlName="card">
+        <option *ngFor="let card of cards" [ngValue]="card">
+          {{ card }}
+        </option>
+      </select>
+    </div>
+    <div class="select">
+      <label for="time">Tiempo máximo</label>
+      <select id="time" formControlName="time">
+        <option *ngFor="let time of times" [ngValue]="time">
+          {{ time }}
+        </option>
+      </select>
+    </div>
+    <button type="button" class="btn btn-light" (click)="action()">Aceptar</button>
+  </form>
+</section>

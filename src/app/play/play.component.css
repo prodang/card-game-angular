@@ -1,0 +1,65 @@
+.main{
+  display: flex;
+  justify-content: space-between;
+  width: 1500px;
+  margin: auto;
+}
+
+#info{
+  width: 15%;
+  height: 500px;
+}
+
+#board{
+  border: 1px solid black;
+  background: gray;
+  padding: 10px;
+  width: 70%;
+}
+
+#art-1{
+  height: 45%;
+}
+
+#art-2{
+  height: 45%;
+}
+
+.content{
+  background:wheat;
+  border: 2px solid blue;
+  padding: 10px 0;
+}
+
+article{
+  text-align: center;
+  background:palegoldenrod;
+}
+
+label{
+  color: blue;
+  font-weight: bold;
+}
+
+input{
+  border: 0;
+  background: none;
+  color: green;
+  font-weight: bold;
+  text-align: center;
+}
+
+#clock{
+  color: blue;
+}
+
+button{
+  width: 70%;
+  margin: auto;
+}
+
+img{
+  width: 65px;
+  height: 125px;
+  margin: 20px;
+}

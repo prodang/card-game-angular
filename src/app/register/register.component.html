@@ -1,0 +1,11 @@
+<section>
+  <article>
+    <form role="form" [formGroup]="form">
+      <input type="text" (blur)="checkUser()" placeholder="Usuario" formControlName="user">
+      <input type="text" placeholder="Email" formControlName="email">
+      <input type="password" placeholder="Clave" formControlName="clave1">
+      <input type="password" placeholder="Repita la clave" formControlName="clave2"><br>
+      <button type="button" class="btn btn-primary" (click)="send()">Enviar</button>
+    </form>
+  </article>
+</section>

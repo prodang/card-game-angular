@@ -1,0 +1,29 @@
+article{
+  border: 2px solid black;
+  background:wheat;
+  padding: 3rem;
+  width: 700px;
+  margin: auto;
+}
+
+img{
+  height: 200px;
+  width: 200px;
+}
+
+h1{
+  font-size: 32px;
+  font-weight: normal;
+}
+
+p{
+  font-size: 24px;
+  font-style: italic;
+  font-weight: bold;
+}
+
+h2{
+  font-size: 18px;
+  font-style: italic;
+  text-align: right;
+}

@@ -1,8 +1,18 @@
 <header>
-  <nav>
-
+  <nav class="navbar navbar-expand">
+    <ul class="nav navbar-nav">
+      <li class="nav-item"><a class="nav-link" routerLink="start" routerLinkActive="active" >Inicio</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="preferences" routerLinkActive="active" >Preferencias</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="play" routerLinkActive="active">Jugar</a></li>
+      <li class="nav-item"><a class="nav-link" href="../records/index.html">Records</a></li>
+    </ul>
+    <ul class="nav navbar-nav ms-auto">
+      <li class="nav-item"><a class="nav-link" routerLink="register" routerLinkActive="active" *ngIf="notLog">Registro</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="login" routerLinkActive="active" *ngIf="notLog">Login</a></li>
+      <li class="nav-item"><a class="nav-link" (click)="finish()" routerLinkActive="active" *ngIf="!notLog">Logout</a></li>
+    </ul>
   </nav>
 </header>
-<section>
+<main>
   <router-outlet></router-outlet>
-</section>
+</main>

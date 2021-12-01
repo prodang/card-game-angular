@@ -1,0 +1,20 @@
+nav{
+  padding: 0 20px !important;
+  background: orange;
+}
+
+a{
+  padding: 15px 10px !important;
+}
+
+a:hover{
+  background: rgb(236, 231, 169, .5);;
+}
+
+.active{
+  background: rgb(236, 231, 169);
+}
+
+main{
+  margin: 5rem auto;
+}

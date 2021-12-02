@@ -37,13 +37,7 @@ export class UserRestService {
     const headers = new HttpHeaders()
       .set("Content-Type", "application/json")
       .set("Authorization", token) ;
-    /*let params = new HttpParams();
-    params = params.set("punctuation", body.punctuation);
-    params = params.set("cards", body.cards);
-    params = params.set("disposedTime", body.disposedTime);*/
-
-    console.log('LLEGO A POST: '+JSON.stringify(body));
-    return this.http.post(this.url+'/records', JSON.stringify(body),{headers: headers});
+    return this.http.post(this.url+'/records', body,{headers: headers});
   }
 
   deleteRecordsPersonals(token:any){

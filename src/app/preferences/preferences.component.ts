@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Router} from "@angular/router";
+import {PreferencesMngService} from "../shared/preferences-mng.service";
 
 @Component({
   selector: 'app-preferences',
@@ -19,7 +20,7 @@ export class PreferencesComponent implements OnInit {
     time: new FormControl(this.times[0])
   });
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private preferences: PreferencesMngService) {
   }
 
   ngOnInit(): void {
@@ -30,9 +31,8 @@ export class PreferencesComponent implements OnInit {
     cards = this.form.get('card')?.value;
     time = this.form.get('time')?.value;
 
-    //TODO: Utilizar un servicio para el localStoage y el sessionStorage
-    localStorage.setItem('cards',cards);
-    localStorage.setItem('time',time);
+    this.preferences.setCards(cards);
+    this.preferences.setTime(time);
 
     this.router.navigateByUrl("/play");
   }

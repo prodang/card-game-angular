@@ -5,6 +5,7 @@ import {UserRestService} from "../shared/user-rest.service";
 import {record} from "../shared/model/record.model";
 import {HttpParams} from "@angular/common/http";
 import {ToastrService} from "ngx-toastr";
+import {PreferencesMngService} from "../shared/preferences-mng.service";
 
 @Component({
   selector: 'app-play',
@@ -24,13 +25,13 @@ export class PlayComponent implements OnInit {
   finish = false;
   isToken = false;
 
-  constructor(private conex: UserRestService,  private toastr: ToastrService) {
+  constructor(private conex: UserRestService,  private toastr: ToastrService, private preferences: PreferencesMngService) {
   }
 
   ngOnInit(): void {
     let num: number;
-    this.time = this.getTimeStorage();
-    num = this.getNumStorage();
+    this.time = this.preferences.getTime();
+    num = this.preferences.getCards();
     this.board = new Board(num, this.time);
     if(this.time != 0){
       this.clock();
@@ -102,22 +103,15 @@ export class PlayComponent implements OnInit {
   }
 
   saveRecord(){
-    console.log('ENTRO EN EL BOTON');
-    let token = localStorage.getItem('token');
-    /*let body = new HttpParams()
-      .append('punctuation', this.total)
-      .append('cards', this.board.getNum())
-      .append('disposedTime', this.board.getTime());*/
-    console.log('TOTAL: '+this.total);
-    console.log('CARTAS: '+this.board.getNum());
-    console.log('TIEMPO: '+this.board.getTime());
-    const body = {
+    let token, body;
+    token = sessionStorage.getItem('token');
+    body = {
       punctuation: this.board.getPunt(),
       cards: this.board.getNum(),
       disposedTime: this.board.getTime()
     };
     this.conex.postRecord(body,token).subscribe(
-      value => {console.log('TERMINO BIEN')},
+      value => {},
       error => {
         if(error.status == 400){
           this.toastr.error('Faltan datos');
@@ -125,12 +119,9 @@ export class PlayComponent implements OnInit {
           this.toastr.error('Token incorrecto');
         }else if( error.status == 500){
           this.toastr.error('Error interno. Inténtalo más tarde');
-        }else{
-          console.log('OTRO ERROR: '+error);
         }
       }
     );
-    console.log('TERMINO TODO');
   }
 
   action(card: Card){
@@ -180,26 +171,6 @@ export class PlayComponent implements OnInit {
   blockCards(){
     this.board.blockCard(this.card1);
     this.board.blockCard(this.card2);
-  }
-
-  getTimeStorage(){
-    let dateTime;
-    dateTime = localStorage.getItem('time');
-    if(dateTime!=null && dateTime != ''){
-      return parseInt(dateTime);
-    }else{
-      return 0;
-    }
-  }
-
-  getNumStorage(){
-    let dateCards;
-    dateCards = localStorage.getItem('cards');
-    if((dateCards!=null)&&(dateCards!='')){
-      return parseInt(dateCards);
-    }else{
-      return 32;
-    }
   }
 
   clock(){

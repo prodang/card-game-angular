@@ -15,6 +15,7 @@ import { RegisterComponent } from './register/register.component';
 import {UserRestService} from "./shared/user-rest.service";
 import { LoginComponent } from './login/login.component';
 import { RecordsComponent } from './records/records.component';
+import {PreferencesMngService} from "./shared/preferences-mng.service";
 
 @NgModule({
   declarations: [
@@ -42,7 +43,7 @@ import { RecordsComponent } from './records/records.component';
     })
   ],
   providers: [UserRestService,
-
+    PreferencesMngService
   ],
   bootstrap: [AppComponent]
 })

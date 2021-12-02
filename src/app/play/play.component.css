@@ -6,6 +6,7 @@
 }
 
 #info{
+  margin: auto;
   width: 15%;
   height: 500px;
 }
@@ -22,12 +23,12 @@
 }
 
 #art-2{
-  height: 45%;
+  height: auto;
 }
 
 .content{
   background:wheat;
-  border: 2px solid blue;
+  border: 2px solid orange;
   padding: 10px 0;
 }
 
@@ -55,7 +56,7 @@ input{
 
 button{
   width: 70%;
-  margin: auto;
+  margin: 10px auto;
 }
 
 img{

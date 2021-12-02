@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {Board} from "./Board";
 import {Card} from "./Card";
+import {UserRestService} from "../shared/user-rest.service";
+import {record} from "../shared/model/record.model";
+import {HttpParams} from "@angular/common/http";
 
 @Component({
   selector: 'app-play',
@@ -17,8 +20,10 @@ export class PlayComponent implements OnInit {
   win = 0;
   card1 = "";
   card2 = "";
+  finish = false;
+  isToken = false;
 
-  constructor() {
+  constructor(private conex: UserRestService) {
   }
 
   ngOnInit(): void {
@@ -30,18 +35,104 @@ export class PlayComponent implements OnInit {
       this.clock();
     }
     this.board.build();
+    if(sessionStorage.getItem('token') != '' && sessionStorage.getItem('user') != ''){
+      this.isToken = true;
+    }
   }
 
   save(){
-    //TODO: Funcionalidad de guardar partida
-
+    let token = sessionStorage.getItem('token');
+    let body = {
+      time: this.time,
+      entry: this.entry,
+      win: this.win,
+      card1: this.card1,
+      card2: this.card2,
+      board: this.board
+    };
+    this.conex.postGame(body, token).subscribe(
+      next =>{},
+      error => {
+        if(error.status == 400){
+          alert('Faltan datos');
+        }else if( error.status == 401){
+          alert('Token incorrecto');
+        }else if( error.status == 500){
+          alert('Error interno. Inténtalo más tarde');
+        }
+      }
+    );
   }
 
   recover(){
-    //TODO: Funcinonalidad de recuperar partida
+    let token, json: any;
+    token = sessionStorage.getItem('token');
+    this.conex.getGame(token).subscribe(
+      (value: any) => {
+        json = JSON.parse(value);
+        this.buildNewGame(json);
+      },
+      error => {
+        if( error.status == 401){
+          alert('Token incorrecto');
+        }else if( error.status == 500){
+          alert('Error interno. Inténtalo más tarde');
+        }
+      }
+    );
   }
 
-  pruebaClick(card: Card){
+  buildNewGame(json: any){
+    let newBoard: Board;
+    this.time = json.time;
+    if(this.time != 0){
+      this.clock();
+    }
+    this.punt = json.board.punt;
+    this.entry = json.entry;
+    this.win = json.win;
+    this.card1 = json.card1;
+    this.card2 = json.card2;
+    newBoard = new Board(json.board.num, json.board.time);
+    newBoard.setPunt(json.board.punt);
+    newBoard.setStates(json.board.states);
+    newBoard.buildByJson(json.board.cards);
+    this.board = newBoard;
+  }
+
+  saveRecord(){
+    console.log('ENTRO EN EL BOTON');
+    let token = localStorage.getItem('token');
+    /*let body = new HttpParams()
+      .append('punctuation', this.total)
+      .append('cards', this.board.getNum())
+      .append('disposedTime', this.board.getTime());*/
+    console.log('TOTAL: '+this.total);
+    console.log('CARTAS: '+this.board.getNum());
+    console.log('TIEMPO: '+this.board.getTime());
+    const body = {
+      punctuation: this.board.getPunt(),
+      cards: this.board.getNum(),
+      disposedTime: this.board.getTime()
+    };
+    this.conex.postRecord(body,token).subscribe(
+      value => {console.log('TERMINO BIEN')},
+      error => {
+        if(error.status == 400){
+          alert('Faltan datos');
+        }else if( error.status == 401){
+          alert('Token incorrecto');
+        }else if( error.status == 500){
+          alert('Error interno. Inténtalo más tarde');
+        }else{
+          console.log('OTRO ERROR: '+error);
+        }
+      }
+    );
+    console.log('TERMINO TODO');
+  }
+
+  action(card: Card){
     if(card.getType() == 0){
       this.entry++;
       this.relationCard(card.getId());
@@ -70,6 +161,7 @@ export class PlayComponent implements OnInit {
       this.punt = this.board.getPunt();
       this.entry = 0;
       if(this.win == this.board.getNum()){
+        this.finish = true;
         this.board.calculateTotal();
         this.total = this.board.getPunt();
       }

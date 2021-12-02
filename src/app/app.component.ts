@@ -23,6 +23,7 @@ export class AppComponent {
 
   finish(){
     sessionStorage.setItem('token','');
+    sessionStorage.setItem('user','');
     this.changeLog();
     this.router.navigateByUrl('/start');
   }

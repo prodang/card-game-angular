@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {UserRestService} from "../shared/user-rest.service";
 import {record} from "../shared/model/record.model";
 import {ToastrService} from "ngx-toastr";
+import {AuthMngService} from "../shared/managers/auth-mng.service";
 
 @Component({
   selector: 'app-records',
@@ -15,13 +16,13 @@ export class RecordsComponent implements OnInit {
   isToken = false;
   isPersonals = false;
 
-  constructor(private conex: UserRestService,  private toastr: ToastrService) { }
+  constructor(private conex: UserRestService,  private toastr: ToastrService, private auth: AuthMngService) { }
 
   ngOnInit(): void {
-    let token = sessionStorage.getItem('token'),
-      user = sessionStorage.getItem('user');
-    if( token != ''){
-      this.conex.getRecordsPersonals(user,token).subscribe(
+    let token = this.auth.getToken(),
+      user = this.auth.getUser();
+    if(token){
+      this.conex.getRecordsPersonals(user).subscribe(
         (value: record[]) => {
             this.personals = value;
             this.isToken = true;
@@ -58,8 +59,7 @@ export class RecordsComponent implements OnInit {
   }
 
   deletePersonals(){
-    let token = sessionStorage.getItem('token');
-    this.conex.deleteRecordsPersonals(token).subscribe(
+    this.conex.deleteRecordsPersonals().subscribe(
       value => {
           this.isPersonals = false;
           this.ngOnInit();

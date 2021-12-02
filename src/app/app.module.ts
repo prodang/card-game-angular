@@ -15,7 +15,9 @@ import { RegisterComponent } from './register/register.component';
 import {UserRestService} from "./shared/user-rest.service";
 import { LoginComponent } from './login/login.component';
 import { RecordsComponent } from './records/records.component';
-import {PreferencesMngService} from "./shared/preferences-mng.service";
+import {PreferencesMngService} from "./shared/managers/preferences-mng.service";
+import {AuthMngService} from "./shared/managers/auth-mng.service";
+import {TokenInterceptor} from "./shared/token.interceptor";
 
 @NgModule({
   declarations: [
@@ -43,7 +45,13 @@ import {PreferencesMngService} from "./shared/preferences-mng.service";
     })
   ],
   providers: [UserRestService,
-    PreferencesMngService
+    PreferencesMngService,
+    AuthMngService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi:true
+    }
   ],
   bootstrap: [AppComponent]
 })

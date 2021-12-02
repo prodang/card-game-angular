@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {Board} from "./Board";
 import {Card} from "./Card";
 import {UserRestService} from "../shared/user-rest.service";
-import {record} from "../shared/model/record.model";
-import {HttpParams} from "@angular/common/http";
 import {ToastrService} from "ngx-toastr";
-import {PreferencesMngService} from "../shared/preferences-mng.service";
+import {PreferencesMngService} from "../shared/managers/preferences-mng.service";
+import {AuthMngService} from "../shared/managers/auth-mng.service";
 
 @Component({
   selector: 'app-play',
@@ -25,7 +24,8 @@ export class PlayComponent implements OnInit {
   finish = false;
   isToken = false;
 
-  constructor(private conex: UserRestService,  private toastr: ToastrService, private preferences: PreferencesMngService) {
+  constructor(private conex: UserRestService,  private toastr: ToastrService, private preferences: PreferencesMngService,
+              private auth: AuthMngService) {
   }
 
   ngOnInit(): void {
@@ -37,13 +37,12 @@ export class PlayComponent implements OnInit {
       this.clock();
     }
     this.board.build();
-    if(sessionStorage.getItem('token') != '' && sessionStorage.getItem('user') != ''){
+    if(this.auth.getToken() && this.auth.getUser()){
       this.isToken = true;
     }
   }
 
   save(){
-    let token = sessionStorage.getItem('token');
     let body = {
       time: this.time,
       entry: this.entry,
@@ -52,8 +51,8 @@ export class PlayComponent implements OnInit {
       card2: this.card2,
       board: this.board
     };
-    this.conex.postGame(body, token).subscribe(
-      next =>{},
+    this.conex.postGame(body).subscribe(
+      () =>{},
       error => {
         if(error.status == 400){
           this.toastr.error('Faltan datos');
@@ -67,9 +66,8 @@ export class PlayComponent implements OnInit {
   }
 
   recover(){
-    let token, json: any;
-    token = sessionStorage.getItem('token');
-    this.conex.getGame(token).subscribe(
+    let json: any;
+    this.conex.getGame().subscribe(
       (value: any) => {
         json = JSON.parse(value);
         this.buildNewGame(json);
@@ -103,15 +101,13 @@ export class PlayComponent implements OnInit {
   }
 
   saveRecord(){
-    let token, body;
-    token = sessionStorage.getItem('token');
-    body = {
+    let body = {
       punctuation: this.board.getPunt(),
       cards: this.board.getNum(),
       disposedTime: this.board.getTime()
     };
-    this.conex.postRecord(body,token).subscribe(
-      value => {},
+    this.conex.postRecord(body).subscribe(
+      () => {},
       error => {
         if(error.status == 400){
           this.toastr.error('Faltan datos');
@@ -124,7 +120,7 @@ export class PlayComponent implements OnInit {
     );
   }
 
-  action(card: Card){
+  click(card: Card){
     if(card.getType() == 0){
       this.entry++;
       this.relationCard(card.getId());

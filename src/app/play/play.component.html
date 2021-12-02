@@ -20,7 +20,7 @@
 
   <section id="board">
     <article class="d-flex flex-wrap justify-content-center" >
-      <img [id]="card.id" *ngFor="let card of board.getCards()" [src]="card.state" (click)="action(card)">
+      <img [id]="card.id" *ngFor="let card of board.getCards()" [src]="card.state" (click)="click(card)">
     </article>
   </section>
 

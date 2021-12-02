@@ -30,11 +30,10 @@ export class PreferencesComponent implements OnInit {
     cards = this.form.get('card')?.value;
     time = this.form.get('time')?.value;
 
+    //TODO: Utilizar un servicio para el localStoage y el sessionStorage
     localStorage.setItem('cards',cards);
     localStorage.setItem('time',time);
 
-
-    //TODO: LA COMUNICACIN ES CORRECTA ?
     this.router.navigateByUrl("/play");
   }
 }

@@ -18,3 +18,7 @@ a:hover{
 main{
   margin: 5rem auto;
 }
+
+a{
+  cursor: pointer;
+}

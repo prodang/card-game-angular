@@ -12,6 +12,7 @@ import { PlayComponent } from './play/play.component';
 import { RegisterComponent } from './register/register.component';
 import {UserRestService} from "./shared/user-rest.service";
 import { LoginComponent } from './login/login.component';
+import { RecordsComponent } from './records/records.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { LoginComponent } from './login/login.component';
     PreferencesComponent,
     PlayComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    RecordsComponent
   ],
   imports: [
     BrowserModule,

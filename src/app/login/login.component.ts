@@ -35,17 +35,17 @@ export class LoginComponent implements OnInit {
       body = new HttpParams()
         .append('username', user?.value)
         .append('password',clave?.value);
-      this.checkUser(body);
+      this.checkUser(body, user?.value);
     }
   }
 
-  private checkUser(body: HttpParams) {
+  private checkUser(body: HttpParams, user: string) {
     let token: any;
     this.conex.loginUser(body).subscribe(
       (next) => {
         token = next.headers.get('authorization');
-        token = token.split(' ')[1];
         sessionStorage.setItem('token',token);
+        sessionStorage.setItem('user', user)
         this.app.changeLog();
         this.router.navigateByUrl('/start');
       },

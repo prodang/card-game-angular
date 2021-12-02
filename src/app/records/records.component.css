@@ -1,0 +1,27 @@
+section{
+  margin:auto;
+  padding: 30px 60px;
+  display:block;
+  width: 1300px;
+  border-radius: 10px;
+  border: 1.5px solid blue;
+  box-shadow: 1px 1px 5px black;
+  background:wheat;
+}
+
+.table{
+  width:35%;
+  margin: auto;
+  padding: 20px 0;
+  border: 2px solid;
+  border-bottom-color: blue;
+  border-right-color: blue;
+  border-top-color: orange;
+  border-left-color: orange;
+  text-align: center;
+}
+
+button{
+  margin: auto !important;
+  margin: 5px;
+}

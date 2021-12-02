@@ -1,0 +1,47 @@
+<section>
+  <article class="d-flex justify-content-between">
+    <table class="table caption-top">
+      <caption>Records generales</caption>
+      <thead>
+        <th scope="col"></th>
+        <th scope="col">Usuario</th>
+        <th scope="col">Ptos.</th>
+        <th scope="col">Cartas</th>
+        <th scope="col">Segs.</th>
+        <th scope="col">Fecha</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of records; let i = index" ng>
+          <th scope="row"> {{ (i + 1) }}</th>
+          <td> {{record.username}} </td>
+          <td> {{record.punctuation}} </td>
+          <td> {{record.cards}} </td>
+          <td> {{record.disposedTime}} </td>
+          <td > {{change(record.recordDate)}} </td>
+        </tr>
+      </tbody>
+    </table>
+    <table *ngIf="isToken" class="table caption-top">
+      <caption>Records del usuario</caption>
+      <thead>
+      <th scope="col"></th>
+      <th scope="col">Usuario</th>
+      <th scope="col">Ptos.</th>
+      <th scope="col">Cartas</th>
+      <th scope="col">Segs.</th>
+      <th scope="col">Fecha</th>
+      </thead>
+      <tbody>
+      <tr *ngFor="let personal of personals; let i = index" ng>
+        <th scope="row"> {{ (i + 1) }}</th>
+        <td> {{personal.username}} </td>
+        <td> {{personal.punctuation}} </td>
+        <td> {{personal.cards}} </td>
+        <td> {{personal.disposedTime}} </td>
+        <td > {{change(personal.recordDate)}} </td>
+      </tr>
+      </tbody>
+    </table>
+    <button type="button" class="btn btn-danger" *ngIf="isPersonals" (click)="deletePersonals()">Eliminar</button>
+  </article>
+</section>

@@ -15,11 +15,29 @@ export class Board{
     this.states = new Array(num);
   }
 
+  setCards(cards: Array<Card>){
+    this.cards = cards;
+  }
+
+  setPunt(punt: number){
+    this.punt = punt;
+  }
+
+  setStates(states: Array<string>){
+    this.states = states;
+  }
+
   build(){
     for (let i=0;i<this.num;i++){
       this.cards[i] = new Card(i.toString(),'./assets/images/reverso.jpg');
     }
     this.buildStates();
+  }
+
+  buildByJson(cards: Array<Card>){
+    for (let i=0;i<this.num;i++){
+      this.cards[i] = new Card(i.toString(), cards[i].state);
+    }
   }
 
   buildStates(){
@@ -111,5 +129,9 @@ export class Board{
     for(let i=0;i<this.num;i++){
       this.cards[i].setType(1);
     }
+  }
+
+  getTime(){
+    return this.time;
   }
 }

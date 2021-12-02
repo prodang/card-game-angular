@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {UserRestService} from "../shared/user-rest.service";
 import {record} from "../shared/model/record.model";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-records',
@@ -14,7 +15,7 @@ export class RecordsComponent implements OnInit {
   isToken = false;
   isPersonals = false;
 
-  constructor(private conex: UserRestService) { }
+  constructor(private conex: UserRestService,  private toastr: ToastrService) { }
 
   ngOnInit(): void {
     let token = sessionStorage.getItem('token'),
@@ -30,9 +31,9 @@ export class RecordsComponent implements OnInit {
           },
         error => {
             if( error.status == 401){
-              alert('Token incorrecto');
+              this.toastr.error('Token incorrecto');
             }else if( error.status == 500){
-              alert('Error interno. Inténtalo más tarde');
+              this.toastr.error('Error interno. Inténtalo más tarde');
             }
           }
       );
@@ -42,7 +43,7 @@ export class RecordsComponent implements OnInit {
       (value: record[]) => {this.records = value;},
       error => {
         if( error.status == 500){
-          alert('Error interno. Inténtalo más tarde');
+          this.toastr.error('Error interno. Inténtalo más tarde');
         }
       }
     );
@@ -65,7 +66,7 @@ export class RecordsComponent implements OnInit {
         },
       error => {
         if(error.status == 401){
-          alert('Token incorrecto');
+          this.toastr.error('Token incorrecto');
         }
       }
     );

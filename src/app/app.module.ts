@@ -32,8 +32,9 @@ import { RecordsComponent } from './records/records.component';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     ToastrModule.forRoot({
-      'timeOut': 5000,
+      'timeOut': 3000,
       'closeButton': true,
       'tapToDismiss': true,
       'countDuplicates': true,

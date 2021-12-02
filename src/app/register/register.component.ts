@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {UserRestService} from "../shared/user-rest.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {ToastrService} from "ngx-toastr";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-register',
@@ -16,24 +18,23 @@ export class RegisterComponent implements OnInit {
     clave2: new FormControl('', Validators.required)
   });
 
-  constructor(private conex: UserRestService) { }
+  constructor(private conex: UserRestService, private toastr: ToastrService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   checkUser(){
     let user = this.form.get('user');
-    //TODO: Cambiar las alertas
     if(user?.hasError('required') || user?.hasError('maxlength')){
-      alert('Condiciones de usuario inválidas. Introduce otro diferente.');
+      this.toastr.error('Condiciones de usuario inválidas. Introduce otro diferente.');
     }else{
       this.conex.getaUser(user?.value).subscribe(
         next => {
-          alert('Usuario ya existe. Introduce otro diferente.');
+          this.toastr.error('Usuario ya existe. Introduce otro diferente.');
         },
         error => {
           if (error.status == 500){
-            alert('Error interno. Inténtalo más tarde');
+            this.toastr.error('Error interno. Inténtalo más tarde');
           }else if(error.status == 404){}
         }
       );
@@ -47,11 +48,11 @@ export class RegisterComponent implements OnInit {
       user = this.form.get('user');
 
     if(email?.hasError('required')){
-      alert('Email es requerido');
+      this.toastr.error('Email es requerido');
     }else if(clave1?.hasError('required') || clave2?.hasError('required')){
-      alert('Las claves son requeridas');
+      this.toastr.error('Las claves son requeridas');
     }else if(clave1?.value != clave2?.value){
-      alert('Las claves no son iguales');
+      this.toastr.error('Las claves no son iguales');
     }else{
       this.buildUser(user, email, clave1);
     }
@@ -64,14 +65,17 @@ export class RegisterComponent implements OnInit {
       password: clave?.value
     };
     this.conex.postUser(newUser).subscribe(
-      next => {alert('Usuario registrado');},
+      next => {
+          this.toastr.success('Usuario registrado');
+          this.router.navigateByUrl("/login");
+        },
       error => {
         if(error.status == 400){
-          alert('Todos los datos deben estar rellenados.');
+          this.toastr.error('Todos los datos deben estar rellenados.');
         }else if(error.status == 409){
-          alert('Usuario ya existe. Introduce otro diferente.');
+          this.toastr.error('Usuario ya existe. Introduce otro diferente.');
         }else if(error.status == 500){
-          alert('Error interno. Inténtalo más tarde');
+          this.toastr.error('Error interno. Inténtalo más tarde');
         }
       }
     );

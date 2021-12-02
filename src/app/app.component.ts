@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {Router} from "@angular/router";
+import {AuthMngService} from "./shared/managers/auth-mng.service";
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ export class AppComponent {
   title = 'card-game-angular';
   notLog = true;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private auth: AuthMngService) {
   }
 
   changeLog(){
@@ -22,8 +23,7 @@ export class AppComponent {
   }
 
   finish(){
-    sessionStorage.setItem('token','');
-    sessionStorage.setItem('user','');
+    this.auth.emptyAll();
     this.changeLog();
     this.router.navigateByUrl('/start');
   }

@@ -8,9 +8,8 @@ export class PreferencesMngService {
   constructor() { }
 
   getCards(){
-    let dateCards;
-    dateCards = localStorage.getItem('cards');
-    if((dateCards!=null)&&(dateCards!='')){
+    let dateCards = localStorage.getItem('cards');
+    if(dateCards){
       return parseInt(dateCards);
     }else{
       return 32;
@@ -18,9 +17,8 @@ export class PreferencesMngService {
   }
 
   getTime(){
-    let dateTime;
-    dateTime = localStorage.getItem('time');
-    if(dateTime!=null && dateTime != ''){
+    let dateTime = localStorage.getItem('time');
+    if(dateTime){
       return parseInt(dateTime);
     }else {
       return 0;

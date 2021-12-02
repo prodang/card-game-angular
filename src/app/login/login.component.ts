@@ -5,6 +5,7 @@ import {HttpParams} from "@angular/common/http";
 import {AppComponent} from "../app.component";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
+import {AuthMngService} from "../shared/managers/auth-mng.service";
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,9 @@ export class LoginComponent implements OnInit {
     clave: new FormControl('', Validators.required)
   });
 
-  constructor(private conex: UserRestService, private app: AppComponent, private router: Router, private toastr: ToastrService) { }
+  constructor(private conex: UserRestService, private app: AppComponent,
+              private router: Router, private toastr: ToastrService,
+              private auth: AuthMngService) { }
 
   ngOnInit(): void {
   }
@@ -45,8 +48,9 @@ export class LoginComponent implements OnInit {
     this.conex.loginUser(body).subscribe(
       (next) => {
         token = next.headers.get('authorization');
-        sessionStorage.setItem('token',token);
-        sessionStorage.setItem('user', user)
+        token = token.split(' ')[1];
+        this.auth.setToken(token);
+        this.auth.setUser(user);
         this.app.changeLog();
         this.toastr.success('Bienvenido '+user);
         this.router.navigateByUrl('/start');

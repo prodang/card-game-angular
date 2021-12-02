@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {record} from "./model/record.model";
 
 @Injectable({
@@ -26,38 +26,23 @@ export class UserRestService {
     return this.http.get<record[]>(this.url+'/records');
   }
 
-  getRecordsPersonals(user: any, token: any){
-    const headers = new HttpHeaders()
-      .set("Content-Type", "application/json")
-      .set("Authorization", token) ;
-    return this.http.get<record[]>(this.url+'/records/'+user,{headers: headers});
+  getRecordsPersonals(user: any){
+    return this.http.get<record[]>(this.url+'/records/'+user);
   }
 
-  postRecord(body:any, token:any){
-    const headers = new HttpHeaders()
-      .set("Content-Type", "application/json")
-      .set("Authorization", token) ;
-    return this.http.post(this.url+'/records', body,{headers: headers});
+  postRecord(body:any){
+    return this.http.post(this.url+'/records', body);
   }
 
-  deleteRecordsPersonals(token:any){
-    const headers = new HttpHeaders()
-      .set("Content-Type", "application/json")
-      .set("Authorization", token) ;
-    return this.http.delete(this.url+'/records',{headers: headers});
+  deleteRecordsPersonals(){
+    return this.http.delete(this.url+'/records');
   }
 
-  postGame(body:any, token:any){
-    const headers = new HttpHeaders()
-      .set("Content-Type", "application/json")
-      .set("Authorization", token) ;
-    return this.http.post(this.url +'/games',body,{headers: headers});
+  postGame(body:any){
+    return this.http.post(this.url +'/games',body);
   }
 
-  getGame(token:any){
-    const headers = new HttpHeaders()
-      .set("Content-Type", "application/json")
-      .set("Authorization", token) ;
-    return this.http.get(this.url+'/games',{headers: headers});
+  getGame(){
+    return this.http.get(this.url+'/games');
   }
 }

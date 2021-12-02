@@ -4,6 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import {HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule} from "ngx-toastr";
 
 import { AppComponent } from './app.component';
 import { InicioComponent } from './inicio/inicio.component';
@@ -29,7 +31,14 @@ import { RecordsComponent } from './records/records.component';
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ToastrModule.forRoot({
+      'timeOut': 5000,
+      'closeButton': true,
+      'tapToDismiss': true,
+      'countDuplicates': true,
+      'positionClass': 'toast-top-right'
+    })
   ],
   providers: [UserRestService,
 

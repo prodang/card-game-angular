@@ -4,6 +4,7 @@ import {Card} from "./Card";
 import {UserRestService} from "../shared/user-rest.service";
 import {record} from "../shared/model/record.model";
 import {HttpParams} from "@angular/common/http";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-play',
@@ -23,7 +24,7 @@ export class PlayComponent implements OnInit {
   finish = false;
   isToken = false;
 
-  constructor(private conex: UserRestService) {
+  constructor(private conex: UserRestService,  private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -54,11 +55,11 @@ export class PlayComponent implements OnInit {
       next =>{},
       error => {
         if(error.status == 400){
-          alert('Faltan datos');
+          this.toastr.error('Faltan datos');
         }else if( error.status == 401){
-          alert('Token incorrecto');
+          this.toastr.error('Token incorrecto');
         }else if( error.status == 500){
-          alert('Error interno. Inténtalo más tarde');
+          this.toastr.error('Error interno. Inténtalo más tarde');
         }
       }
     );
@@ -74,9 +75,9 @@ export class PlayComponent implements OnInit {
       },
       error => {
         if( error.status == 401){
-          alert('Token incorrecto');
+          this.toastr.error('Token incorrecto');
         }else if( error.status == 500){
-          alert('Error interno. Inténtalo más tarde');
+          this.toastr.error('Error interno. Inténtalo más tarde');
         }
       }
     );
@@ -119,11 +120,11 @@ export class PlayComponent implements OnInit {
       value => {console.log('TERMINO BIEN')},
       error => {
         if(error.status == 400){
-          alert('Faltan datos');
+          this.toastr.error('Faltan datos');
         }else if( error.status == 401){
-          alert('Token incorrecto');
+          this.toastr.error('Token incorrecto');
         }else if( error.status == 500){
-          alert('Error interno. Inténtalo más tarde');
+          this.toastr.error('Error interno. Inténtalo más tarde');
         }else{
           console.log('OTRO ERROR: '+error);
         }

@@ -4,6 +4,7 @@ import {UserRestService} from "../shared/user-rest.service";
 import {HttpParams} from "@angular/common/http";
 import {AppComponent} from "../app.component";
 import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit {
     clave: new FormControl('', Validators.required)
   });
 
-  constructor(private conex: UserRestService, private app: AppComponent, private router: Router) { }
+  constructor(private conex: UserRestService, private app: AppComponent, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit(): void {
   }
@@ -28,9 +29,9 @@ export class LoginComponent implements OnInit {
       body;
 
     if(user?.hasError('required')||clave?.hasError('required')){
-      alert('Faltan datos: usuario o clave');
+      this.toastr.error('Faltan datos: usuario o clave');
     }else if(user?.hasError('maxlength')){
-      alert('El usuario debe tener menos de 9 caracteres');
+      this.toastr.error('El usuario debe tener menos de 9 caracteres');
     }else{
       body = new HttpParams()
         .append('username', user?.value)
@@ -47,15 +48,16 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem('token',token);
         sessionStorage.setItem('user', user)
         this.app.changeLog();
+        this.toastr.success('Bienvenido '+user);
         this.router.navigateByUrl('/start');
       },
       error => {
         if(error.status == 400){
-          alert('Faltan datos: usuario o clave');
+          this.toastr.error('Faltan datos: usuario o clave');
         }else if( error.status == 401){
-          alert('Datos inválidos. Inténtalo de nuevo');
+          this.toastr.error('Datos incorrectos. Inténtalo de nuevo');
         }else if( error.status == 500){
-          alert('Error interno. Inténtalo más tarde');
+          this.toastr.error('Error interno. Inténtalo más tarde');
         }
       }
     );
